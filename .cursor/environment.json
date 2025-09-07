@@ -1,0 +1,11 @@
+{
+  "agentCanUpdateSnapshot": true,
+  "install": "echo 'System monitoring environment setup'",
+  "start": "echo 'Starting system monitoring background agent'",
+  "terminals": [
+    {
+      "name": "System Monitor",
+      "command": "echo 'System monitoring terminal ready'"
+    }
+  ]
+}
