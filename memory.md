@@ -63,3 +63,59 @@
 2. **Firmware Investigation**: Check for newer firmware versions or known issues
 3. **Hardware Diagnostics**: Run Lenovo hardware diagnostics
 4. **Monitoring**: Set up continuous temperature and error monitoring
+
+## Disaster Recovery Strategy
+
+### Current Status
+- **Timeshift Backups**: Local BTRFS snapshots working
+- **External Backups**: In progress - configuring Seagate drive storage
+- **Passwordless Sudo**: Phase 1 completed (limited commands)
+
+### Planned Recovery Options
+1. **Bootable USB Recovery**: 
+   - Ubuntu ISO on USB drive for emergency recovery
+   - Tools: dd, mkusb, or Ventoy for creation
+   - Status: Planned
+
+2. **Network-Bootable Recovery System**:
+   - Systemback for regular system images
+   - Network-stored recovery images
+   - Automated recovery scheduling
+   - Status: Planned
+
+3. **Background Agent Monitoring**:
+   - Event-driven notifications for system issues
+   - GitHub repository for status tracking
+   - Status: Configured and ready for testing
+
+## Recent Decisions & Progress
+
+### Background Agents Setup (September 7, 2025)
+- **Decision**: Use Cursor Background Agents for event-driven system monitoring
+- **Implementation**: Created GitHub repository `beardfaceguy/crash` for status tracking
+- **Configuration**: Set up `.cursor/environment.json` for Background Agent environment
+- **Status**: GitHub App permissions configured, ready for testing
+- **Approach**: System scripts write to repository files, Background Agents monitor changes
+
+### Passwordless Sudo Implementation
+- **Decision**: Implement phased approach for passwordless sudo access
+- **Phase 1**: Limited sudo access for specific system administration commands
+- **File**: `/etc/sudoers.d/ai_assistant_limited` created
+- **Commands**: timeshift, smartctl, systemctl, dmesg, journalctl, and other monitoring tools
+- **Status**: Phase 1 completed and tested
+
+### Backup Strategy Decisions
+- **Decision**: Keep home folder excluded from backups (privacy/space considerations)
+- **Decision**: Configure Timeshift for external Seagate drive storage
+- **Challenge**: Timeshift expects block devices, not network mount paths
+- **Current Status**: Local backups working, external configuration in progress
+- **Approach**: Hybrid strategy - local BTRFS + rsync to external storage
+
+### System Monitoring Approach
+- **Decision**: Use file-based status updates in Git repository
+- **Rationale**: Background Agents limited to repository directory, but can monitor file changes
+- **Files Created**: 
+  - `monitoring/status.md` - general system status
+  - `monitoring/nvme_status.md` - NVMe drive monitoring
+  - `backups/backup_status.md` - backup system status
+  - `monitoring/test_trigger.md` - Background Agent testing
