@@ -1,0 +1,25 @@
+# Ignore embedded git repositories
+mcp-send-email/
+
+# Ignore temporary files
+*.tmp
+*.log
+*.pid
+
+# Ignore system files
+*.swp
+*.swo
+*~
+
+# Ignore backup files
+*.bak
+*.backup
+
+# Ignore monitoring logs (keep status files)
+monitoring/*.log
+monitoring/temp_*
+
+# Keep important status files
+!monitoring/status.md
+!monitoring/nvme_status.md
+!backups/backup_status.md
