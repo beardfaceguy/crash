@@ -118,9 +118,64 @@ mkdir -p /mnt/seagate/backups/$(hostname)
 # 6. Boot from USB and create system image
 ```
 
+## Universal USB Compatibility
+
+### ✅ **USB Works on Any Computer:**
+- **Boots on any x86_64 computer** (Intel/AMD 64-bit)
+- **Restores to any compatible hardware**
+- **Works with different disk sizes** (target must be same size or larger)
+- **Supports multiple filesystems** (ext4, BTRFS, FAT32, NTFS, etc.)
+- **Network access** to download images from Seagate drive
+
+### **Restoration Process:**
+1. Boot from USB on target computer
+2. Select Clonezilla Live
+3. Choose "device-image" mode
+4. Mount network drive (`/mnt/seagate`)
+5. Select system image from appropriate backup directory
+6. Restore to target disk
+
+### **Hardware Considerations:**
+- **Different hardware** may require driver updates after restoration
+- **UEFI vs BIOS** - may need to adjust boot settings
+- **Network configuration** - may need to reconfigure network settings
+- **Test restoration** on similar hardware first
+
+## Live Disk Backup (Automated)
+
+### **Setup Automated Backups:**
+```bash
+# Install partclone
+sudo apt install -y partclone
+
+# Set up daily cron job
+sudo tee /etc/cron.d/live-disk-backup << 'EOF'
+# Live Disk Backup - Daily at 3 AM (bootable system images)
+0 3 * * * beardface /home/beardface/lab/crash/live_disk_backup.sh >> /var/log/live_disk_backup.log 2>&1
+EOF
+
+# Add required sudo commands to passwordless config
+sudo tee -a /etc/sudoers.d/ai_assistant_limited << 'EOF'
+beardface ALL=(ALL) NOPASSWD: /usr/bin/apt
+beardface ALL=(ALL) NOPASSWD: /usr/bin/fdisk
+beardface ALL=(ALL) NOPASSWD: /usr/bin/efibootmgr
+beardface ALL=(ALL) NOPASSWD: /usr/sbin/partclone.ext4
+beardface ALL=(ALL) NOPASSWD: /usr/sbin/partclone.fat32
+EOF
+```
+
+### **Backup Features:**
+- **Creates bootable images** while system is running
+- **Daily automated backups** at 3:00 AM
+- **3-day retention** policy (prevents disk overflow)
+- **Compression** to save storage space
+- **Restoration script** included with each backup
+
 ## Notes
-- System image will be large (~400-500GB)
-- Process takes several hours
-- Ensure sufficient space on Seagate drive
-- Test boot from USB after creation
-- Keep USB in safe location for emergency recovery
+- **System images are large** (~400-500GB each)
+- **Process takes several hours** for full disk images
+- **Live backups are faster** (~1-2 hours) and run while system is active
+- **Ensure sufficient space** on Seagate drive
+- **Test boot from USB** after creation
+- **Keep USB in safe location** for emergency recovery
+- **USB is universal** - works on any compatible computer
