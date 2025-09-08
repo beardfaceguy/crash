@@ -156,6 +156,28 @@
 - **Coverage**: Universal USB compatibility, hardware considerations, automated backup setup, restoration procedures
 - **Status**: ✅ COMPLETED - Ready for dev desktop Cursor agent replication
 
+### USB Drive Management (September 7, 2025)
+- **Decision**: Reformat problematic USB drive for OSMC server backup storage
+- **USB Drive**: /dev/sda (1.8TB Seagate Backup Plus Drive)
+- **Original Filesystem**: NTFS (causing mounting issues)
+- **New Filesystem**: ext4 with label "backup-storage"
+- **Purpose**: Additional storage for OSMC server to host backups from network computers
+- **Status**: ✅ COMPLETED - Reformatted, tested, and safely unmounted
+
+### Docker Container Management (September 7, 2025)
+- **Decision**: Stop wintermute_pg Docker container to free system resources
+- **Container**: pgvector/pgvector:0.8.0-pg17 (PostgreSQL with vector extension)
+- **Status**: ✅ COMPLETED - Container stopped successfully
+- **Space Usage**: 495MB (447MB image + 48MB volume)
+- **Wintermute Project**: 9.9GB in /home/beardface/wintermute (AI/ML project)
+
+### Interactive Commands Documentation (September 7, 2025)
+- **Decision**: Document non-interactive flags for commands that require user interaction
+- **File**: /mnt/seagate/cursor/interactive_commands.md
+- **Commands Added**: mkfs.ext4: -F (force, non-interactive)
+- **Purpose**: Track commands that need non-interactive flags to avoid blocking
+- **Status**: ✅ COMPLETED - File created and maintained
+
 ### Key Learnings and Solutions
 - **Live Disk Imaging**: Successfully implemented automated bootable system images while system runs
 - **Partition Detection**: Fixed lsblk filtering logic for proper partition identification
@@ -163,3 +185,5 @@
 - **Memory Documentation**: Importance of updating memory.md with all decisions and progress
 - **Universal Recovery**: Clonezilla USB works across different hardware configurations
 - **Storage Management**: 3-day retention policy balances recovery options with storage efficiency
+- **Non-Interactive Commands**: Always use appropriate flags (-F for mkfs.ext4) to avoid blocking
+- **Docker Resource Management**: Containers can consume significant space even when stopped
