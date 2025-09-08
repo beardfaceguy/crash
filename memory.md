@@ -119,3 +119,16 @@
   - `monitoring/nvme_status.md` - NVMe drive monitoring
   - `backups/backup_status.md` - backup system status
   - `monitoring/test_trigger.md` - Background Agent testing
+
+### Live Disk Backup Implementation (September 7, 2025)
+- **Decision**: Use live disk imaging with partclone (Clonezilla's engine) for automated backups
+- **Approach**: Create bootable system images while system is running via cron
+- **Tools**: partclone, dd for different partition types
+- **Schedule**: Daily at 3:00 AM via cron
+- **Location**: /mnt/seagate/backups/crotchwarmer/live-disk-backups/
+- **Retention**: 3 days (due to large file sizes ~400-500GB)
+- **Status**: Cron job configured, partclone installed, testing in progress
+- **Scripts Created**:
+  - `live_disk_backup.sh` - Main backup script using partclone
+  - `setup_live_disk_backup_cron.sh` - Cron job setup script
+  - `backup_strategy_comparison.md` - Comparison of backup approaches
